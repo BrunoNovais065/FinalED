@@ -4,9 +4,10 @@ import Colecoes.Lists.ArrayUnorderedList;
 import Colecoes.Queues.LinkedQueue;
 import Colecoes.Stacks.LinkedStack;
 import Colecoes.Trees.LinkedHeap;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.Iterator;
-
+@JsonIgnoreProperties (ignoreUnknown = true)
 /**
  * Represents a network data structure, extending a graph with weighted edges.
  *
