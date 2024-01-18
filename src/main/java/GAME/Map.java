@@ -195,5 +195,13 @@ public class Map {
         }
     }
 
+    public void exportMapToJson(String path) {
+        DataPersistence.exportMapToJson.exportMapToJson(path, this.map);
+    }
+
+    public void importMapFromJson(String path) {
+        this.map = DataPersistence.importMapFromJson.importMapFromJson(path);
+    }
+
 }
 

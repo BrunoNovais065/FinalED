@@ -1,5 +1,7 @@
 package GAME;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 public class Location {
 
     private static int idCount = 0;
@@ -13,6 +15,8 @@ public class Location {
         this.x = idCount;
         idCount++;
     }
+
+
 
 
     public static void resetCounter() {
