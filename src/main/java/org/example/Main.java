@@ -1,7 +1,13 @@
 package org.example;
 
+import GAME.Map;
+
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello world!");
+
+    Map map = new Map();
+        map.generateRandomMap(5, true, 0.4);
+    map.printMap();
+
     }
 }

@@ -1,6 +1,6 @@
 package Colecoes.Lists;
 
-import org.w3c.dom.Node;
+import Colecoes.Lists.Node;
 
 import Colecoes.AllExecoes.NonComparableElementException;
 

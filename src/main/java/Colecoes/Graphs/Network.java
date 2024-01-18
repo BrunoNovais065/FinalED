@@ -517,6 +517,14 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
         return resultGraph;
     }
 
+    public double getWeight(T vertex1, T vertex2) {
+        return getWeight(getIndex(vertex1), getIndex(vertex2));
+    }
+
+    private double getWeight(int index1, int index2) {
+        return adjMatrix[index1][index2];
+    }
+
     /**
      * Finds and returns an edge with a specific weight in the context of Prim's
      * algorithm for constructing a minimum spanning tree (MST). The edge is

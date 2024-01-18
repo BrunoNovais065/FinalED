@@ -3,6 +3,7 @@ package Colecoes.Graphs;
 import Colecoes.Lists.ArrayUnorderedList;
 import Colecoes.Queues.LinkedQueue;
 import Colecoes.Stacks.LinkedStack;
+import GAME.Location;
 
 import java.util.Iterator;
 
@@ -566,14 +567,14 @@ public class Graph<T> implements GraphADT<T> {
      *
      * @return An array of vertex values.
      */
-    public T[] getVertices() {
-        Object[] vertices = new Object[numVertices];
-        Object vertex;
+    public Location[] getVertices() {
+        Location[] vertices = new Location[numVertices];
+        Location vertex;
 
         for (int i = 0; i < numVertices; i++) {
-            vertex = this.vertices[i];
+            vertex = (Location) this.vertices[i];
             vertices[i] = vertex;
         }
-        return (T[]) vertices;
+        return (Location[]) vertices;
     }
 }
