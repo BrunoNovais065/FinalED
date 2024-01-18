@@ -149,9 +149,9 @@ public class Map {
     }
 
 
-    public Location getLocation(int x, int y) {
+    public Location getLocation(int x) {
         for (Location location : this.map.getVertices()) {
-            if (location.getX() == x && location.getYCoordinates() == y) {
+            if (location.getId() == x) {
                 return location;
             }
         }
@@ -184,11 +184,11 @@ public class Map {
     public void printMap() {
         System.out.println("Map: ");
         for (Location location : this.map.getVertices()) {
-            System.out.println("Location: " + location.getX());
+            System.out.println("Location: " + location.getId());
             for (Location location1 : this.map.getVertices()) {
                 if (location != location1) {
                     if (this.map.getWeight(location, location1) != Double.POSITIVE_INFINITY) {
-                        System.out.println("Road: " + location.getX() + " -> " + location1.getX() + " = " + this.map.getWeight(location, location1));
+                        System.out.println("Road: " + location.getId() + " -> " + location1.getId() + " = " + this.map.getWeight(location, location1));
                     }
                 }
             }

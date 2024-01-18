@@ -409,6 +409,9 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
         return iteratorShortestPath(getIndex(startVertex), getIndex(targetVertex));
     }
 
+
+    //create method that looks at the max weight of the edges and returns the index of the vertex with the max weight
+
     /**
      * Returns the index of an adjacent vertex with a specific weight in the
      * context of Dijkstra's algorithm.

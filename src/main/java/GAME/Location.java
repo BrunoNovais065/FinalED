@@ -5,14 +5,14 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 public class Location {
 
     private static int idCount = 0;
-    private int x = 0;
+    private int id = 0;
 
     private int coordinates;
 
 
     public Location(int y) {
         this.coordinates = y;
-        this.x = idCount;
+        this.id = idCount;
         idCount++;
     }
 
@@ -24,8 +24,8 @@ public class Location {
     }
 
 
-    public int getX() {
-        return this.x;
+    public int getId() {
+        return this.id;
     }
 
     public int getYCoordinates() {
@@ -33,8 +33,8 @@ public class Location {
     }
 
 
-    public void setX(int x) {
-        this.x = x;
+    public void setId(int x) {
+        this.id = x;
     }
 
     public void setYCoordinates(int y) {
