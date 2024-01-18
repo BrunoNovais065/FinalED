@@ -5,7 +5,7 @@ import Colecoes.AllExecoes.NoSuchElementException;
 
 import java.util.Iterator;
 
-import org.w3c.dom.Node;
+import Colecoes.Lists.Node;
 
 public class LinkedList<T> implements ListADT<T>, Iterable<T> {
     protected Node<T> head, tail;
