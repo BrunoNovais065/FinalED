@@ -8,16 +8,22 @@ import GAME.Map;
 public class MainTesterRomulo {
     public static void main(String[] args) {
 
-        Map map4 = new Map();
-        map4.importMapFromJson("src/main/java/DataPersistence/map3.json");
 
-        // Verifica se a importação foi bem-sucedida antes de imprimir
-        if (map4 != null) {
-            System.out.println("Imported Map:");
-            map4.printMap();
-        } else {
-            System.out.println("Falha na importação do mapa.");
-        }
+        //generate map
+        /*
+        Map map = new Map();
+        map.generateRandomMap(10, true, 10);
+        map.printMap();
+*/
+        //export map
+        //map.exportMapToJson("src/main/java/data/map.json");
+
+        //import map
+        Map map2 = new Map();
+        map2.importMapFromJson("src/main/java/data/map.json");
+        map2.printMap();
+
+
+
     }
-
 }
