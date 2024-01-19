@@ -1,28 +1,32 @@
 package org.example;
 
-import Colecoes.Graphs.Network;
-import DataPersistence.importMapFromJson;
-import GAME.Location;
 import GAME.Map;
 
 public class MainTesterRomulo {
     public static void main(String[] args) {
 
-
-        //generate map
         /*
-        Map map = new Map();
-        map.generateRandomMap(10, true, 10);
-        map.printMap();
-*/
-        //export map
-        //map.exportMapToJson("src/main/java/data/map.json");
+        try {
+            Map map = new Map();
+            map.generateRandomMap(2, true,2);
+            map.printMap();
+            System.out.println("\nExporting map to JSON...");
+            map.exportMapToJson("src/main/java/data/map.json");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+         */
 
-        //import map
-        Map map2 = new Map();
-        map2.importMapFromJson("src/main/java/data/map.json");
-        map2.printMap();
 
+
+        System.out.println("\nImporting map from JSON...");
+        try {
+            Map map2 = new Map();
+            map2.importMapFromJson("src/main/java/data/map.json");
+            map2.printMap();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
 
     }

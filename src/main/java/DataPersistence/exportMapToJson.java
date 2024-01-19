@@ -9,21 +9,33 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class exportMapToJson {
-
     public static void exportMapToJson(String path, Network<Location> map) {
-        JSONArray verticesArray = new JSONArray();
+        JSONObject mapObject = new JSONObject();
+        mapObject.put("connected", map.isConnected());
+        mapObject.put("empty", map.isEmpty());
 
+        JSONArray verticesArray = new JSONArray();
         for (Location location : map.getVertices()) {
             JSONObject vertexObject = new JSONObject();
-            vertexObject.put("x", location.getId()); // Assuming 'x' represents the id
-            vertexObject.put("ycoordinates", location.getYCoordinates());
+            vertexObject.put("id", location.getId());
+            vertexObject.put("coordenadas", location.getYCoordinates());
             verticesArray.add(vertexObject);
         }
-
-        JSONObject mapObject = new JSONObject();
         mapObject.put("vertices", verticesArray);
-        mapObject.put("empty", false); // Assuming 'empty' property
-        mapObject.put("connected", true); // Assuming 'connected' property
+
+        JSONArray edgesArray = new JSONArray();
+        for (Location l1 : map.getVertices()) {
+            for (Location l2 : map.getVertices()) {
+                if (l1 != l2 && map.getWeight(l1, l2) != Double.POSITIVE_INFINITY) {
+                    JSONObject edgeObject = new JSONObject();
+                    edgeObject.put("source", l1.getId());
+                    edgeObject.put("target", l2.getId());
+                    edgeObject.put("length", map.getWeight(l1, l2));
+                    edgesArray.add(edgeObject);
+                }
+            }
+        }
+        mapObject.put("edges", edgesArray);
 
         try (FileWriter fileWriter = new FileWriter(path)) {
             fileWriter.write(mapObject.toJSONString());
