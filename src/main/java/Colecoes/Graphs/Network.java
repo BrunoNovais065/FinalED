@@ -59,6 +59,32 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
     public void addEdge(int index1, int index2, double weight) {
         if (indexIsValid(index1) && indexIsValid(index2)) {
             adjMatrix[index1][index2] = weight;
+            //adjMatrix[index2][index1] = weight;
+        }
+    }
+
+    /**
+     * Adds a weighted edge between two vertices in the network Bidirectional.
+     *
+     * @param vertex1 The first vertex.
+     * @param vertex2 The second vertex.
+     * @param weight  The weight of the edge.
+     */
+    public void addEdgeBi(T vertex1, T vertex2, double weight) {
+        addEdgeBi(getIndex(vertex1), getIndex(vertex2), weight);
+    }
+
+
+    /**
+     * Adds a weighted edge between two vertices in the network using their indices Bidirectional.
+     *
+     * @param index1 The index of the first vertex.
+     * @param index2 The index of the second vertex.
+     * @param weight The weight of the edge.
+     */
+    public void addEdgeBi(int index1, int index2, double weight) {
+        if (indexIsValid(index1) && indexIsValid(index2)) {
+            adjMatrix[index1][index2] = weight;
             adjMatrix[index2][index1] = weight;
         }
     }
@@ -86,7 +112,7 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
     public void removeEdge(int index1, int index2) {
         if (indexIsValid(index1) && indexIsValid(index2)) {
             adjMatrix[index1][index2] = Double.POSITIVE_INFINITY;
-            adjMatrix[index2][index1] = Double.POSITIVE_INFINITY;
+            //adjMatrix[index2][index1] = Double.POSITIVE_INFINITY;
         }
     }
 
@@ -269,13 +295,28 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
         while (!traversalQueue.isEmpty()) {
             x = traversalQueue.dequeue();
             resultList.addToRear(vertices[x]);
+            //dequeues all traversalQueue
 
             // Find all vertices adjacent to x that have not been visited and
             // queue them up
+            int count = 0;
             for (int i = 0; i < numVertices; i++) {
                 if ((adjMatrix[x][i] < Double.POSITIVE_INFINITY) && !visited[i]) {
                     traversalQueue.enqueue(i);
                     visited[i] = true;
+                    count++;
+                }
+            }
+
+            if (count == 0) {
+                for (int i = 0; i < numVertices; i++) {
+                        if (adjMatrix[x][i] < Double.POSITIVE_INFINITY){
+                            count++;
+                        }
+                }
+                if(count == 0) {
+                    resultList = new ArrayUnorderedList<>();
+                    return resultList.iterator();
                 }
             }
         }
@@ -410,7 +451,88 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
     }
 
 
-    //create method that looks at the max weight of the edges and returns the index of the vertex with the max weight
+    /**
+     * Returns an iterator containing the vertices with the highest weights in the network
+     * between the specified first and last vertices.
+     *
+     * @param firstVertex The first vertex in the range.
+     * @param lastVertex  The last vertex in the range.
+     * @return Iterator of vertices with the highest weights in the specified range.
+     */
+    public Iterator<T> iteratorVerticesWithHighestWeight(T firstVertex, T lastVertex) {
+        ArrayUnorderedList<T> verticesWithHighestWeight = new ArrayUnorderedList<>();
+        double highestWeight = Double.NEGATIVE_INFINITY;
+
+        int startIndex = getIndex(firstVertex);
+        int lastIndex = getIndex(lastVertex);
+
+        if (!indexIsValid(startIndex) || !indexIsValid(lastIndex)) {
+            // Handle invalid vertices
+            return verticesWithHighestWeight.iterator();
+        }
+        verticesWithHighestWeight.addToRear(vertices[startIndex]);
+        int k = startIndex;
+        int temp = 0;
+        // Iterate over all pairs of vertices in the specified range and find the highest weight
+        //for (int i = startIndex; i <= lastIndex; i++) {
+            while (k != lastIndex){
+            for (int j = 0; j <= this.vertices.length - 1; j++) {
+                if (adjMatrix[k][j] > highestWeight && adjMatrix[k][j] < Double.POSITIVE_INFINITY && !verticesWithHighestWeight.contains(vertices[j])) {
+                    highestWeight = adjMatrix[k][j];
+                     temp = j;
+                }
+            }
+                k = temp;
+            //make sure that the vertex is not already in the list
+            verticesWithHighestWeight.addToRear(vertices[k]);
+            highestWeight = 0;
+        }
+
+        return verticesWithHighestWeight.iterator();
+    }
+
+    /**
+     * Returns an iterator containing the vertices with the smallest weights in the network
+     * between the specified first and last vertices.
+     *
+     * @param firstVertex The first vertex in the range.
+     * @param lastVertex  The last vertex in the range.
+     * @return Iterator of vertices with the smallest weights in the specified range.
+     */
+    public Iterator<T> iteratorVerticesWithSmallestWeight(T firstVertex, T lastVertex) {
+        ArrayUnorderedList<T> verticesWithSmallestWeight = new ArrayUnorderedList<>();
+        double smallestWeight = Double.POSITIVE_INFINITY;
+
+        int startIndex = getIndex(firstVertex);
+        int lastIndex = getIndex(lastVertex);
+
+        if (!indexIsValid(startIndex) || !indexIsValid(lastIndex)) {
+            // Handle invalid vertices
+            return verticesWithSmallestWeight.iterator();
+        }
+
+        verticesWithSmallestWeight.addToRear(vertices[startIndex]);
+        int k = startIndex;
+        int temp = 0;
+
+        // Iterate over all pairs of vertices in the specified range and find the smallest weight
+        while (k != lastIndex) {
+            for (int j = 0; j <= this.vertices.length - 1; j++) {
+                if (adjMatrix[k][j] < smallestWeight && adjMatrix[k][j] > 0 && !verticesWithSmallestWeight.contains(vertices[j])) {
+                    smallestWeight = adjMatrix[k][j];
+                    temp = j;
+                }
+            }
+            k = temp;
+
+            // Make sure that the vertex is not already in the list
+            verticesWithSmallestWeight.addToRear(vertices[k]);
+            smallestWeight = Double.POSITIVE_INFINITY; // Reset to positive infinity for the next iteration
+        }
+
+        return verticesWithSmallestWeight.iterator();
+    }
+
 
     /**
      * Returns the index of an adjacent vertex with a specific weight in the

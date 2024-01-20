@@ -503,10 +503,25 @@ public class Graph<T> implements GraphADT<T> {
      */
     @Override
     public void clear() {
+        /*
         numVertices = 0;
         for (int i = 0; i < vertices.length; i++) {
             vertices[i] = null;
             for (int j = 0; j < vertices.length; j++) {
+                adjMatrix[i][j] = false;
+            }
+        }
+        */
+        numVertices = 0;
+
+        // Clear vertices array
+        for (int i = 0; i < vertices.length; i++) {
+            vertices[i] = null;
+        }
+
+        // Clear adjacency matrix
+        for (int i = 0; i < numVertices; i++) {
+            for (int j = 0; j < numVertices; j++) {
                 adjMatrix[i][j] = false;
             }
         }
