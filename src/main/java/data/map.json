@@ -1,1 +1,1 @@
-{"vertices":[{"x":0,"ycoordinates":6},{"x":1,"ycoordinates":28},{"x":2,"ycoordinates":8},{"x":3,"ycoordinates":22},{"x":4,"ycoordinates":75}],"empty":false,"connected":true}
+{"connected":true,"vertices":[{"id":0,"coordenadas":62},{"id":1,"coordenadas":53}],"edges":[{"length":11.870845755796367,"source":0,"target":1},{"length":11.870845755796367,"source":1,"target":0}],"empty":false}
