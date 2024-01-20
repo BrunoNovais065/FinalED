@@ -49,6 +49,7 @@ public class Map {
         }
 
 
+
         /*
         // Connect locations with random roads based on density
         for (int i = 0; i <  getMap().getVertices().length; i++) {

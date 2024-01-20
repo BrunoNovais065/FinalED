@@ -5,7 +5,7 @@ import GAME.Map;
 public class MainTesterRomulo {
     public static void main(String[] args) {
 
-        /*
+
         try {
             Map map = new Map();
             map.generateRandomMap(2, true,2);
@@ -15,7 +15,7 @@ public class MainTesterRomulo {
         } catch (Exception e) {
             e.printStackTrace();
         }
-         */
+
 
 
 
