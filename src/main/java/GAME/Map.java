@@ -43,7 +43,7 @@ public class Map {
         Random random = new Random();
         int countConnections = 0;
         if (bidirectional) {
-            countConnections = (int) (numLocations * (numLocations - 1) * density);
+            countConnections = (int) (numLocations * (numLocations - 1) * density) / 2;
         } else {
             countConnections = (int) (numLocations * (numLocations - 1) * density) / 2;
         }
@@ -81,6 +81,7 @@ public class Map {
         for (int i = 0; i < numLocations; i++) {
             Location location = new Location(random.nextInt(100)); // You can adjust the range as needed
             addLocation(location);
+            /*
             //if is bidirectional create a road to the next location
             if (bidirectional && i != numLocations - 1 && i >= 1) {
                 Location l1 = (Location) this.map.getVertices()[i - 1];
@@ -90,10 +91,12 @@ public class Map {
                 addRoad(l2, l1, roadLength);
                 count++;
             }
+
+             */
         }
 
-        countConnections -= count;
-
+        //countConnections -= count;
+if (!bidirectional) {
         //connect random locations whit roads based on specifications
         for (int i = 0; i < countConnections; i++) {
             Location l1 = null;
@@ -101,6 +104,11 @@ public class Map {
             while (l1 == l2) {
                 l1 = (Location) this.map.getVertices()[random.nextInt(numLocations)];
                 l2 = (Location) this.map.getVertices()[random.nextInt(numLocations)];
+               if (this.map.getWeight(l2, l1) != Double.POSITIVE_INFINITY || this.map.getWeight(l1, l2) != Double.POSITIVE_INFINITY) {
+                    l1 = null;
+                    l2 = null;
+                }
+
             }
             double roadLength = random.nextDouble() * 100.0D;
             addRoad(l1, l2, roadLength);
@@ -108,7 +116,22 @@ public class Map {
                 addRoad(l2, l1, roadLength);
             }
         }
-
+} else {
+    for (int i = 0; i < countConnections; i++) {
+        Location l1 = null;
+        Location l2 = null;
+        while (l1 == l2) {
+            l1 = (Location) this.map.getVertices()[random.nextInt(numLocations)];
+            l2 = (Location) this.map.getVertices()[random.nextInt(numLocations)];
+            if (this.map.getWeight(l2, l1) != Double.POSITIVE_INFINITY || this.map.getWeight(l1, l2) != Double.POSITIVE_INFINITY) {
+                l1 = null;
+                l2 = null;
+            }
+        }
+        double roadLength = random.nextDouble() * 100.0D;
+        addRoadBy(l1, l2, roadLength);
+    }
+}
 
         //verify if the map is connected if not generate a new map
         if (!getMap().isConnected()) {
@@ -140,6 +163,10 @@ public class Map {
 
     public void addRoad(Location l1, Location l2, double road) {
         this.map.addEdge(l1, l2, road);
+    }
+
+    public void addRoadBy(Location l1, Location l2, double road) {
+        this.map.addEdgeBi(l1, l2, road);
     }
 
     public void removeLocation(Location location) {
