@@ -26,4 +26,17 @@ public class Game {
     public void addPlayer(Player player) {
         this.players[player.getId()] = player;
     }
+
+    public Player[] getPlayers() {
+        return this.players;
+    }
+
+    public Player getOpponent(String player) {
+        if (player == this.players[0].getName()) {
+            return this.players[1];
+        } else {
+            return this.players[0];
+        }
+    }
+
 }
