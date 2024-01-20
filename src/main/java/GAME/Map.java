@@ -45,7 +45,7 @@ public class Map {
         if (bidirectional) {
             countConnections = (int) (numLocations * (numLocations - 1) * density);
         } else {
-            countConnections = (int) (numLocations * (numLocations - 1) * density)/2;
+            countConnections = (int) (numLocations * (numLocations - 1) * density) / 2;
         }
 
 
@@ -75,7 +75,6 @@ public class Map {
          */
 
 
-
         int count = 0;
 
         // Create random locations
@@ -85,7 +84,7 @@ public class Map {
             //if is bidirectional create a road to the next location
             if (bidirectional && i != numLocations - 1 && i >= 1) {
                 Location l1 = (Location) this.map.getVertices()[i - 1];
-                Location l2 = (Location) this.map.getVertices()[i ];
+                Location l2 = (Location) this.map.getVertices()[i];
                 double roadLength = random.nextDouble() * 100.0D;
                 addRoad(l1, l2, roadLength);
                 addRoad(l2, l1, roadLength);
@@ -119,7 +118,6 @@ public class Map {
         }
 
     }
-
 
 
     public Network<Location> getMap() {
@@ -199,9 +197,11 @@ public class Map {
         DataPersistence.exportMapToJson.exportMapToJson(path, this.map);
     }
 
+
     public void importMapFromJson(String path) {
         this.map = DataPersistence.importMapFromJson.importMapFromJson(path);
     }
+
 
 }
 
