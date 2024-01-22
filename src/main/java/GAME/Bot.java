@@ -77,13 +77,20 @@ Game map;
                     System.out.println("O jogador " + this.owner + "com o bot " + this.name + " esta na localização " + this.locationActual.getId() + " e vai para a localização em baixo");
                     for (int i = 0; i< this.map.getOpponent(owner).getBots().length; i++) {
                         Iterator iteratorr = tempMap.getMap().iteratorShortestPath(this.locationActual, this.locationOut);
-                        iteratorr.next();
-                        if (this.map.getOpponent(owner).getBots()[i].locationActual == iteratorr.next()) {
-                            tempMap.removeLocation(this.map.getOpponent(owner).getBots()[i].locationActual);
+                        if (iteratorr.hasNext()) {
+                            iteratorr.next();
+                            if (this.map.getOpponent(owner).getBots()[i].locationActual == iteratorr.next()) {
+                                tempMap.removeLocation(this.map.getOpponent(owner).getBots()[i].locationActual);
+                            }
+                        }else {
+                            System.out.println(("Este bot não tem caminho para o destino"));
+                            return false;
                         }
                     }
                     Iterator iterator = tempMap.getMap().iteratorShortestPath(this.locationActual, this.locationOut);
+                    if (iterator.hasNext()) {
                     iterator.next();
+                    }
                     this.locationActual = (Location) iterator.next();
                     System.out.println("--> " + this.locationActual.getId());
                     System.out.println();
@@ -94,15 +101,57 @@ Game map;
                         return false;
                     }
                 case "highestWeight":
-                    this.locationActual = this.map.getMap().getMap().iteratorVerticesWithHighestWeight(this.locationActual, this.locationOut).next();
+                    Map tempMapp = this.map.getMap();
+                    System.out.println("O jogador " + this.owner + "com o bot " + this.name + " esta na localização " + this.locationActual.getId() + " e vai para a localização em baixo");
+                    for (int i = 0; i< this.map.getOpponent(owner).getBots().length; i++) {
+                        Iterator iteratorr = tempMapp.getMap().iteratorVerticesWithHighestWeight(this.locationActual, this.locationOut);
+                        if (iteratorr.hasNext()) {
+                            iteratorr.next();
+                            if (this.map.getOpponent(owner).getBots()[i].locationActual == iteratorr.next()) {
+                                tempMapp.removeLocation(this.map.getOpponent(owner).getBots()[i].locationActual);
+                            }
+                        }else {
+                            System.out.println(("Este bot não tem caminho para o destino"));
+                            return false;
+                        }
+                    }
+                    Iterator iteratorr = tempMapp.getMap().iteratorShortestPath(this.locationActual, this.locationOut);
+                    if (iteratorr.hasNext()) {
+                        iteratorr.next();
+                    }
+                    this.locationActual = (Location) iteratorr.next();
+                    System.out.println("--> " + this.locationActual.getId());
+                    System.out.println();
                     if (this.locationActual == this.locationOut) {
+                        System.out.println("O jogador " + this.owner + " com o bot " + this.name + " chegou ao destino");
                         return true;
                     } else {
                         return false;
                     }
                 case "smallestWeight":
-                    this.locationActual = this.map.getMap().getMap().iteratorVerticesWithSmallestWeight(this.locationActual, this.locationOut).next();
+                    Map tempMappp = this.map.getMap();
+                    System.out.println("O jogador " + this.owner + "com o bot " + this.name + " esta na localização " + this.locationActual.getId() + " e vai para a localização em baixo");
+                    for (int i = 0; i< this.map.getOpponent(owner).getBots().length; i++) {
+                        Iterator iteratorrr = tempMappp.getMap().iteratorVerticesWithHighestWeight(this.locationActual, this.locationOut);
+                        if (iteratorrr.hasNext()) {
+                            iteratorrr.next();
+                            if (this.map.getOpponent(owner).getBots()[i].locationActual == iteratorrr.next()) {
+                                tempMappp.removeLocation(this.map.getOpponent(owner).getBots()[i].locationActual);
+                            }
+                        }else {
+                            System.out.println(("Este bot não tem caminho para o destino"));
+                            return false;
+                        }
+                    }
+                    Iterator iteratorrr = tempMappp.getMap().iteratorShortestPath(this.locationActual, this.locationOut);
+                    if (iteratorrr.hasNext()) {
+                        iteratorrr.next();
+                    }
+                    this.locationActual = (Location) iteratorrr.next();
+                    System.out.println("--> " + this.locationActual.getId());
+                    System.out.println();
                     if (this.locationActual == this.locationOut) {
+                        System.out.println("O jogador " + this.owner + " com o bot " + this.name + " chegou ao destino");
                         return true;
                     } else {
                         return false;
