@@ -15,6 +15,7 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
 
     protected double[][] adjMatrix;
 
+
     /**
      * Constructs an empty network with default capacity.
      */
@@ -411,6 +412,68 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
         return resultList.iterator();
     }
 
+    public Iterator<Integer> iteratorShortestPathIndicesDijkstra(int startIndex, int targetIndex) {
+        ArrayUnorderedList<Integer> resultList = new ArrayUnorderedList<>();
+        boolean[] visited = new boolean[numVertices];
+        double[] distances = new double[numVertices];
+        int[] predecessors = new int[numVertices];
+
+        if (!indexIsValid(startIndex) || !indexIsValid(targetIndex)) {
+            return resultList.iterator();
+        }
+
+        for (int i = 0; i < numVertices; i++) {
+            visited[i] = false;
+            distances[i] = Double.POSITIVE_INFINITY;
+            predecessors[i] = -1;
+        }
+
+        distances[startIndex] = 0;
+
+        while (true) {
+            int minIndex = -1;
+            double minDistance = Double.POSITIVE_INFINITY;
+
+            // Find the unvisited vertex with the minimum distance
+            for (int i = 0; i < numVertices; i++) {
+                if (!visited[i] && distances[i] < minDistance) {
+                    minIndex = i;
+                    minDistance = distances[i];
+                }
+            }
+
+            if (minIndex == -1) {
+                break; // No more reachable vertices
+            }
+
+            visited[minIndex] = true;
+
+            if (minIndex == targetIndex) {
+                // Reached the target vertex, construct the path and return the iterator
+                int current = targetIndex;
+                while (current != -1) {
+                    resultList.addToFront(current);
+                    current = predecessors[current];
+                }
+                return resultList.iterator();
+            }
+
+            // Update distances and predecessors for adjacent vertices
+            for (int i = 0; i < numVertices; i++) {
+                if (!visited[i] && adjMatrix[minIndex][i] < Double.POSITIVE_INFINITY) {
+                    double newDistance = distances[minIndex] + adjMatrix[minIndex][i];
+                    if (newDistance < distances[i]) {
+                        distances[i] = newDistance;
+                        predecessors[i] = minIndex;
+                    }
+                }
+            }
+        }
+
+        return resultList.iterator(); // No path found
+    }
+
+
     /**
      * Returns an iterator that provides the vertices in the shortest path
      * from the vertex with the specified start index to the vertex with the
@@ -427,11 +490,32 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
             return templist.iterator();
         }
 
-        Iterator<Integer> it = iteratorShortestPathIndices(startIndex, targetIndex);
-        while (it.hasNext()) {
-            templist.addToRear(vertices[it.next()]);
+        if (isBidirectional()) {
+            Iterator<Integer> it = iteratorShortestPathIndices(startIndex, targetIndex);
+            while (it.hasNext()) {
+                templist.addToRear(vertices[it.next()]);
+            }
+            return templist.iterator();
+        }else {
+            Iterator<Integer> it = iteratorShortestPathIndicesDijkstra(startIndex, targetIndex);
+            while (it.hasNext()) {
+                templist.addToRear(vertices[it.next()]);
+            }
+            return templist.iterator();
         }
-        return templist.iterator();
+    }
+
+    //create method to see if this Network is bidirectional
+    public boolean isBidirectional() {
+        for (int i = 0; i < numVertices; i++) {
+            for (int j = 0; j < numVertices; j++) {
+
+                if (adjMatrix[i][j] != adjMatrix[j][i]) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     /**
