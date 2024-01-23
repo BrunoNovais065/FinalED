@@ -205,6 +205,7 @@ public class Graph<T> implements GraphADT<T> {
      * @param startIndex The index of the vertex to start the BFS traversal.
      * @return An iterator over the vertices visited during the BFS traversal.
      */
+    /*
     public Iterator<T> iteratorBFS(int startIndex) {
         Integer x;
         LinkedQueue<Integer> traversalQueue = new LinkedQueue<>();
@@ -237,6 +238,93 @@ public class Graph<T> implements GraphADT<T> {
         }
         return resultList.iterator();
     }
+
+     */
+
+
+    public Iterator<T> iteratorBFS(int startIndex) {
+        Integer x;
+        LinkedQueue<Integer> traversalQueue = new LinkedQueue<>();
+        ArrayUnorderedList<T> resultList = new ArrayUnorderedList<>();
+
+        if (!indexIsValid(startIndex)) {
+            return resultList.iterator();
+        }
+
+        boolean[] visited = new boolean[numVertices];
+        for (int i = 0; i < numVertices; i++) {
+            visited[i] = false;
+        }
+
+        traversalQueue.enqueue(startIndex);
+        visited[startIndex] = true;
+
+        // First BFS traversal
+        while (!traversalQueue.isEmpty()) {
+            x = traversalQueue.dequeue();
+            resultList.addToRear(vertices[x]);
+
+            // Find all vertices adjacent to x that have not been visited and
+            // queue them up
+            for (int i = 0; i < numVertices; i++) {
+                if (adjMatrix[x][i] && !visited[i]) {
+                    traversalQueue.enqueue(i);
+                    visited[i] = true;
+                }
+            }
+        }
+
+        // Check if there are any unvisited vertices in the reverse direction
+        boolean[] reverseVisited = new boolean[numVertices];
+        for (int i = 0; i < numVertices; i++) {
+            reverseVisited[i] = false;
+        }
+
+        // Second BFS traversal in the reverse direction
+        traversalQueue.enqueue(startIndex);
+        reverseVisited[startIndex] = true;
+
+        while (!traversalQueue.isEmpty()) {
+            x = traversalQueue.dequeue();
+
+            // Find all vertices adjacent to x in reverse direction that have not been visited and
+            // queue them up
+            for (int i = 0; i < numVertices; i++) {
+                if (adjMatrix[i][x] && !reverseVisited[i]) {
+                    traversalQueue.enqueue(i);
+                    reverseVisited[i] = true;
+                }
+            }
+        }
+
+        // Check if there are any unvisited vertices in either direction
+        for (int i = 0; i < numVertices; i++) {
+            if (!visited[i] && !reverseVisited[i]) {
+                // The graph is not strongly connected
+                System.out.println("The graph is not strongly connected.");
+                return resultList.iterator();
+            }
+        }
+
+        // verify if there is any vertex connected to index 0
+        boolean connected = false;
+        for (int i = 0; i < numVertices; i++) {
+            if (!adjMatrix[i][0]) {
+                connected = true;
+            }
+        }
+        if (!connected) {
+            //System.out.println("The graph is not strongly connected.");
+            return resultList.iterator();
+        }
+
+        // The graph is strongly connected
+        return resultList.iterator();
+    }
+
+
+
+
 
     /**
      * Returns an iterator that performs a depth-first search (DFS) traversal

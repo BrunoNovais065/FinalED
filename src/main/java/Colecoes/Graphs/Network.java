@@ -6,6 +6,8 @@ import Colecoes.Stacks.LinkedStack;
 import Colecoes.Trees.LinkedHeap;
 
 import java.util.Iterator;
+import java.util.Random;
+
 /**
  * Represents a network data structure, extending a graph with weighted edges.
  *
@@ -554,24 +556,40 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
         }
         verticesWithHighestWeight.addToRear(vertices[startIndex]);
         int k = startIndex;
-        int temp = 0;
+
+        Random random = new Random();
+
         // Iterate over all pairs of vertices in the specified range and find the highest weight
-        //for (int i = startIndex; i <= lastIndex; i++) {
-            while (k != lastIndex){
+        while (k != lastIndex) {
+            int temp = 0;
             for (int j = 0; j <= this.vertices.length - 1; j++) {
-                if (adjMatrix[k][j] > highestWeight && adjMatrix[k][j] < Double.POSITIVE_INFINITY && !verticesWithHighestWeight.contains(vertices[j])) {
+                if (adjMatrix[k][j] > highestWeight && adjMatrix[k][j] < Double.POSITIVE_INFINITY &&
+                        !verticesWithHighestWeight.contains(vertices[j])) {
                     highestWeight = adjMatrix[k][j];
-                     temp = j;
+                    temp = j;
                 }
             }
-                k = temp;
-            //make sure that the vertex is not already in the list
+
+            // If temp is still 0, choose a random adjacency matrix with positive weight
+            if (temp == 0) {
+                int randomIndex;
+                do {
+                    randomIndex = random.nextInt(this.vertices.length);
+                } while (adjMatrix[k][randomIndex] <= 0 || verticesWithHighestWeight.contains(vertices[randomIndex]));
+
+                temp = randomIndex;
+                highestWeight = adjMatrix[k][randomIndex];
+            }
+
+            k = temp;
             verticesWithHighestWeight.addToRear(vertices[k]);
             highestWeight = 0;
         }
 
         return verticesWithHighestWeight.iterator();
     }
+
+
 
     /**
      * Returns an iterator containing the vertices with the smallest weights in the network
@@ -595,16 +613,30 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
 
         verticesWithSmallestWeight.addToRear(vertices[startIndex]);
         int k = startIndex;
-        int temp = 0;
+
+        Random random = new Random();
 
         // Iterate over all pairs of vertices in the specified range and find the smallest weight
         while (k != lastIndex) {
+            int temp = 0;
             for (int j = 0; j <= this.vertices.length - 1; j++) {
                 if (adjMatrix[k][j] < smallestWeight && adjMatrix[k][j] > 0 && !verticesWithSmallestWeight.contains(vertices[j])) {
                     smallestWeight = adjMatrix[k][j];
                     temp = j;
                 }
             }
+
+            // If temp is still 0, choose a random adjacency matrix with positive weight
+            if (temp == 0) {
+                int randomIndex;
+                do {
+                    randomIndex = random.nextInt(this.vertices.length);
+                } while (adjMatrix[k][randomIndex] <= 0 || verticesWithSmallestWeight.contains(vertices[randomIndex]));
+
+                temp = randomIndex;
+                smallestWeight = adjMatrix[k][randomIndex];
+            }
+
             k = temp;
 
             // Make sure that the vertex is not already in the list
@@ -614,6 +646,9 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
 
         return verticesWithSmallestWeight.iterator();
     }
+
+
+
 
 
     /**
