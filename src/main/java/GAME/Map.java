@@ -49,6 +49,34 @@ public class Map {
         }
 
 
+
+
+        /*
+        // Connect locations with random roads based on density
+        for (int i = 0; i <  getMap().getVertices().length; i++) {
+            Location location1 = (Location) getMap().getVertices()[i];
+            for (int j = i + 1; j < getMap().getVertices().length; j++) {
+                Location location2 = (Location) getMap().getVertices()[j];
+                if (bidirectional == true) {
+                    double numberOfConnections = (double) ((numLocations* (numLocations - 1)) * density);
+                    for (int k = 0; k < (int) numberOfConnections; k++) {
+                        double roadLength = random.nextDouble() * 15 + 1; // Random distance between 1 and 15 km
+                        addRoad(location1, location2, roadLength);
+                        addRoad(location2, location1, roadLength);
+                        k++;
+                    }
+                } else {
+                    int numberOfConnections = (int) ((numLocations* (numLocations - 1)) * density) / 2;
+                    for (int k = 0; k < numberOfConnections; k++) {
+                        double roadLength = random.nextDouble() * 15 + 1; // Random distance between 1 and 15 km
+                        addRoad(location1, location2, roadLength);
+                    }
+                }
+            }
+        }
+         */
+
+
         int count = 0;
 
         // Create random locations

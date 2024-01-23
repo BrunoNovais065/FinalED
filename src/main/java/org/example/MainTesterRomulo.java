@@ -8,7 +8,7 @@ import java.util.Iterator;
 public class MainTesterRomulo {
     public static void main(String[] args) {
 
-/*
+
         try {
             Map map = new Map();
             map.generateRandomMap(15, false,0.5);
@@ -20,7 +20,6 @@ public class MainTesterRomulo {
         }
 
 
- */
 
 
 
