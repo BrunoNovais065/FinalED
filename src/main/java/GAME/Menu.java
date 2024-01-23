@@ -2,7 +2,9 @@ package GAME;
 
 import java.util.Scanner;
 
-
+/**
+ * Class that represents a menu in the game
+ */
 public class Menu {
 
     private Game game;
@@ -13,6 +15,9 @@ public class Menu {
         this.game = new Game();
     }
 
+    /**
+     * Method that starts the menu
+     */
     public void menuInicial(){
         System.out.println("Bem vindo ao jogo da bandeira");
         System.out.println("1. Jogar");
@@ -38,6 +43,9 @@ public class Menu {
         }
     }
 
+    /**
+     * Method that starts the menu to play the game
+     */
     public void menuJogar(){
         int correto = 0;
         System.out.println("Introduzir o tamanho do mapa: ");
@@ -211,6 +219,9 @@ public class Menu {
         this.menuMover();
     }
 
+    /**
+     * Method that starts the menu to move the bots
+     */
     public void menuMover(){
         Boolean end = false;
 
@@ -257,6 +268,9 @@ public class Menu {
         }
     }
 
+    /**
+     * Method that starts the menu to move the bots of the imported map
+     */
     public void menuMoverImportado(){
         int correto = 0;
         this.game.getMap().importMapFromJson("src/main/java/data/map.json");
