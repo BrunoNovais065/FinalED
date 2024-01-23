@@ -49,54 +49,20 @@ public class Map {
         }
 
 
-        /*
-        // Connect locations with random roads based on density
-        for (int i = 0; i <  getMap().getVertices().length; i++) {
-            Location location1 = (Location) getMap().getVertices()[i];
-            for (int j = i + 1; j < getMap().getVertices().length; j++) {
-                Location location2 = (Location) getMap().getVertices()[j];
-                if (bidirectional == true) {
-                    double numberOfConnections = (double) ((numLocations* (numLocations - 1)) * density);
-                    for (int k = 0; k < (int) numberOfConnections; k++) {
-                        double roadLength = random.nextDouble() * 15 + 1; // Random distance between 1 and 15 km
-                        addRoad(location1, location2, roadLength);
-                        addRoad(location2, location1, roadLength);
-                        k++;
-                    }
-                } else {
-                    int numberOfConnections = (int) ((numLocations* (numLocations - 1)) * density) / 2;
-                    for (int k = 0; k < numberOfConnections; k++) {
-                        double roadLength = random.nextDouble() * 15 + 1; // Random distance between 1 and 15 km
-                        addRoad(location1, location2, roadLength);
-                    }
-                }
-            }
-        }
-         */
-
-
         int count = 0;
 
         // Create random locations
         for (int i = 0; i < numLocations; i++) {
             Location location = new Location(random.nextInt(100)); // You can adjust the range as needed
             addLocation(location);
-            /*
-            //if is bidirectional create a road to the next location
-            if (bidirectional && i != numLocations - 1 && i >= 1) {
-                Location l1 = (Location) this.map.getVertices()[i - 1];
-                Location l2 = (Location) this.map.getVertices()[i];
-                double roadLength = random.nextDouble() * 100.0D;
-                addRoad(l1, l2, roadLength);
-                addRoad(l2, l1, roadLength);
-                count++;
-            }
-
-             */
         }
+
+
 
         //countConnections -= count;
 if (!bidirectional) {
+    addRoad((Location) this.map.getVertices()[1], (Location) this.map.getVertices()[0], random.nextDouble() * 100.0D);
+    countConnections--;
         //connect random locations whit roads based on specifications
         for (int i = 0; i < countConnections; i++) {
             Location l1 = null;
