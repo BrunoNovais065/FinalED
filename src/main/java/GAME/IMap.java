@@ -3,7 +3,7 @@ package GAME;
 import Collections.Graphs.Network;
 
 /**
- * This interface defines the contract that must be
+ * This interface defines the contract that a map must follow
  */
 public interface IMap {
 
