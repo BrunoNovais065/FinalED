@@ -241,6 +241,7 @@ public class Graph<T> implements GraphADT<T> {
 
      */
 
+
     public Iterator<T> iteratorBFS(int startIndex) {
         Integer x;
         LinkedQueue<Integer> traversalQueue = new LinkedQueue<>();
@@ -303,6 +304,18 @@ public class Graph<T> implements GraphADT<T> {
                 System.out.println("The graph is not strongly connected.");
                 return resultList.iterator();
             }
+        }
+
+        // verify if there is any vertex connected to index 0
+        boolean connected = false;
+        for (int i = 0; i < numVertices; i++) {
+            if (!adjMatrix[i][0]) {
+                connected = true;
+            }
+        }
+        if (!connected) {
+            //System.out.println("The graph is not strongly connected.");
+            return resultList.iterator();
         }
 
         // The graph is strongly connected

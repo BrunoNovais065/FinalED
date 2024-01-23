@@ -6,6 +6,8 @@ import Colecoes.Stacks.LinkedStack;
 import Colecoes.Trees.LinkedHeap;
 
 import java.util.Iterator;
+import java.util.Random;
+
 /**
  * Represents a network data structure, extending a graph with weighted edges.
  *
@@ -541,40 +543,6 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
      * @param lastVertex  The last vertex in the range.
      * @return Iterator of vertices with the highest weights in the specified range.
      */
-    /*
-    public Iterator<T> iteratorVerticesWithHighestWeight(T firstVertex, T lastVertex) {
-        ArrayUnorderedList<T> verticesWithHighestWeight = new ArrayUnorderedList<>();
-        double highestWeight = Double.NEGATIVE_INFINITY;
-
-        int startIndex = getIndex(firstVertex);
-        int lastIndex = getIndex(lastVertex);
-
-        if (!indexIsValid(startIndex) || !indexIsValid(lastIndex)) {
-            // Handle invalid vertices
-            return verticesWithHighestWeight.iterator();
-        }
-        verticesWithHighestWeight.addToRear(vertices[startIndex]);
-        int k = startIndex;
-        int temp = 0;
-        // Iterate over all pairs of vertices in the specified range and find the highest weight
-        //for (int i = startIndex; i <= lastIndex; i++) {
-            while (k != lastIndex){
-            for (int j = 0; j <= this.vertices.length - 1; j++) {
-                if (adjMatrix[k][j] > highestWeight && adjMatrix[k][j] < Double.POSITIVE_INFINITY && !verticesWithHighestWeight.contains(vertices[j])) {
-                    highestWeight = adjMatrix[k][j];
-                     temp = j;
-                }
-            }
-                k = temp;
-            //make sure that the vertex is not already in the list
-            verticesWithHighestWeight.addToRear(vertices[k]);
-            highestWeight = 0;
-        }
-
-        return verticesWithHighestWeight.iterator();
-    }
-     */
-
     public Iterator<T> iteratorVerticesWithHighestWeight(T firstVertex, T lastVertex) {
         ArrayUnorderedList<T> verticesWithHighestWeight = new ArrayUnorderedList<>();
         double highestWeight = Double.NEGATIVE_INFINITY;
@@ -589,101 +557,37 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
         verticesWithHighestWeight.addToRear(vertices[startIndex]);
         int k = startIndex;
 
+        Random random = new Random();
+
         // Iterate over all pairs of vertices in the specified range and find the highest weight
-        //for (int i = startIndex; i <= lastIndex; i++) {
-        while (k != lastIndex){
+        while (k != lastIndex) {
             int temp = 0;
             for (int j = 0; j <= this.vertices.length - 1; j++) {
-                if (adjMatrix[k][j] > highestWeight && adjMatrix[k][j] < Double.POSITIVE_INFINITY && !verticesWithHighestWeight.contains(vertices[j])) {
+                if (adjMatrix[k][j] > highestWeight && adjMatrix[k][j] < Double.POSITIVE_INFINITY &&
+                        !verticesWithHighestWeight.contains(vertices[j])) {
                     highestWeight = adjMatrix[k][j];
                     temp = j;
                 }
             }
-            //make it so that if temp is 0 chose the next smallest weight
+
+            // If temp is still 0, choose a random adjacency matrix with positive weight
             if (temp == 0) {
-                highestWeight = Double.POSITIVE_INFINITY;
-                for (int j = 0; j <= this.vertices.length - 1; j++) {
-                    if (adjMatrix[k][j] < highestWeight && adjMatrix[k][j] > 0 && !verticesWithHighestWeight.contains(vertices[j])) {
-                        highestWeight = adjMatrix[k][j];
-                        temp = j;
-                    }
-                }
+                int randomIndex;
+                do {
+                    randomIndex = random.nextInt(this.vertices.length);
+                } while (adjMatrix[k][randomIndex] <= 0 || verticesWithHighestWeight.contains(vertices[randomIndex]));
+
+                temp = randomIndex;
+                highestWeight = adjMatrix[k][randomIndex];
             }
+
             k = temp;
-            //make sure that the vertex is not already in the list
             verticesWithHighestWeight.addToRear(vertices[k]);
             highestWeight = 0;
         }
 
         return verticesWithHighestWeight.iterator();
     }
-
-    /*
-    public Iterator<T> iteratorVerticesWithHighestWeight(T firstVertex, T lastVertex) {
-        ArrayUnorderedList<T> verticesWithHighestWeight = new ArrayUnorderedList<>();
-        double highestWeight = Double.NEGATIVE_INFINITY;
-
-        int startIndex = getIndex(firstVertex);
-        int lastIndex = getIndex(lastVertex);
-
-        if (!indexIsValid(startIndex) || !indexIsValid(lastIndex)) {
-            // Handle invalid vertices
-            return verticesWithHighestWeight.iterator();
-        }
-
-        boolean[] visited = new boolean[vertices.length];
-
-        int currentVertexIndex = startIndex;
-
-        while (currentVertexIndex != lastIndex) {
-            visited[currentVertexIndex] = true;
-
-            int nextVertexIndex = -1;
-
-            for (int j = 0; j < vertices.length; j++) {
-                if (adjMatrix[currentVertexIndex][j] > highestWeight &&
-                        adjMatrix[currentVertexIndex][j] < Double.POSITIVE_INFINITY &&
-                        !visited[j]) {
-                    highestWeight = adjMatrix[currentVertexIndex][j];
-                    nextVertexIndex = j;
-                }
-            }
-
-            if (nextVertexIndex == -1) {
-                // No unvisited neighbor with higher weight found, pick another vertex
-                boolean allVisited = true;
-                for (int i = 0; i < visited.length; i++) {
-                    if (!visited[i]) {
-                        currentVertexIndex = i;
-                        allVisited = false;
-                        break;
-                    }
-                }
-
-                if (allVisited) {
-                    // All vertices are visited, break the loop
-                    break;
-                }
-
-                // Reset highestWeight for the next iteration
-                highestWeight = Double.NEGATIVE_INFINITY;
-            } else {
-                // Make sure that the vertex is not already in the list
-                verticesWithHighestWeight.addToRear(vertices[currentVertexIndex]);
-                currentVertexIndex = nextVertexIndex;
-                highestWeight = Double.NEGATIVE_INFINITY; // Reset highestWeight for the next iteration
-            }
-        }
-
-        // Add the last vertex to the list
-        if (!visited[lastIndex]) {
-            verticesWithHighestWeight.addToRear(vertices[lastIndex]);
-        }
-
-        return verticesWithHighestWeight.iterator();
-    }
-
-     */
 
 
 
@@ -695,8 +599,6 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
      * @param lastVertex  The last vertex in the range.
      * @return Iterator of vertices with the smallest weights in the specified range.
      */
-
-/*
     public Iterator<T> iteratorVerticesWithSmallestWeight(T firstVertex, T lastVertex) {
         ArrayUnorderedList<T> verticesWithSmallestWeight = new ArrayUnorderedList<>();
         double smallestWeight = Double.POSITIVE_INFINITY;
@@ -711,41 +613,8 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
 
         verticesWithSmallestWeight.addToRear(vertices[startIndex]);
         int k = startIndex;
-        int temp = 0;
 
-        // Iterate over all pairs of vertices in the specified range and find the smallest weight
-        while (k != lastIndex) {
-            for (int j = 0; j <= this.vertices.length - 1; j++) {
-                if (adjMatrix[k][j] < smallestWeight && adjMatrix[k][j] > 0 && !verticesWithSmallestWeight.contains(vertices[j])) {
-                    smallestWeight = adjMatrix[k][j];
-                    temp = j;
-                }
-            }
-            k = temp;
-
-            // Make sure that the vertex is not already in the list
-            verticesWithSmallestWeight.addToRear(vertices[k]);
-            smallestWeight = Double.POSITIVE_INFINITY; // Reset to positive infinity for the next iteration
-        }
-
-        return verticesWithSmallestWeight.iterator();
-    }
-
- */
-    public Iterator<T> iteratorVerticesWithSmallestWeight(T firstVertex, T lastVertex) {
-        ArrayUnorderedList<T> verticesWithSmallestWeight = new ArrayUnorderedList<>();
-        double smallestWeight = Double.POSITIVE_INFINITY;
-
-        int startIndex = getIndex(firstVertex);
-        int lastIndex = getIndex(lastVertex);
-
-        if (!indexIsValid(startIndex) || !indexIsValid(lastIndex)) {
-            // Handle invalid vertices
-            return verticesWithSmallestWeight.iterator();
-        }
-
-        verticesWithSmallestWeight.addToRear(vertices[startIndex]);
-        int k = startIndex;
+        Random random = new Random();
 
         // Iterate over all pairs of vertices in the specified range and find the smallest weight
         while (k != lastIndex) {
@@ -756,16 +625,18 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
                     temp = j;
                 }
             }
-            //make it so that if temp is 0 chose the next smallest weight
+
+            // If temp is still 0, choose a random adjacency matrix with positive weight
             if (temp == 0) {
-                smallestWeight = Double.POSITIVE_INFINITY;
-                for (int j = 0; j <= this.vertices.length - 1; j++) {
-                    if (adjMatrix[k][j] > smallestWeight && adjMatrix[k][j] > 0 && !verticesWithSmallestWeight.contains(vertices[j])) {
-                        smallestWeight = adjMatrix[k][j];
-                        temp = j;
-                    }
-                }
+                int randomIndex;
+                do {
+                    randomIndex = random.nextInt(this.vertices.length);
+                } while (adjMatrix[k][randomIndex] <= 0 || verticesWithSmallestWeight.contains(vertices[randomIndex]));
+
+                temp = randomIndex;
+                smallestWeight = adjMatrix[k][randomIndex];
             }
+
             k = temp;
 
             // Make sure that the vertex is not already in the list
@@ -776,61 +647,6 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
         return verticesWithSmallestWeight.iterator();
     }
 
-
-    /*
-    public Iterator<T> iteratorVerticesWithSmallestWeight(T firstVertex, T lastVertex) {
-        ArrayUnorderedList<T> verticesWithSmallestWeight = new ArrayUnorderedList<>();
-        double smallestWeight = Double.POSITIVE_INFINITY;
-
-        int startIndex = getIndex(firstVertex);
-        int lastIndex = getIndex(lastVertex);
-
-        if (!indexIsValid(startIndex) || !indexIsValid(lastIndex)) {
-            // Handle invalid vertices
-            return verticesWithSmallestWeight.iterator();
-        }
-
-        boolean[] visited = new boolean[vertices.length];
-
-        int currentVertexIndex = startIndex;
-        visited[currentVertexIndex] = true; // Mark the starting vertex as visited
-
-        while (true) {
-            int nextVertexIndex = -1;
-
-            for (int j = 0; j < vertices.length; j++) {
-                if (adjMatrix[currentVertexIndex][j] < smallestWeight &&
-                        adjMatrix[currentVertexIndex][j] > 0 &&
-                        !visited[j]) {
-                    smallestWeight = adjMatrix[currentVertexIndex][j];
-                    nextVertexIndex = j;
-                }
-            }
-
-            if (nextVertexIndex == -1) {
-                // No unvisited neighbor with a positive weight found, break the loop
-                break;
-            }
-
-            // Make sure that the vertex is not already in the list
-            verticesWithSmallestWeight.addToRear(vertices[nextVertexIndex]);
-            visited[nextVertexIndex] = true; // Mark the next vertex as visited
-
-            // Update currentVertexIndex for the next iteration
-            currentVertexIndex = nextVertexIndex;
-
-            // Check if the last vertex is included, and if so, break the loop
-            if (currentVertexIndex == lastIndex) {
-                break;
-            }
-
-            smallestWeight = Double.POSITIVE_INFINITY; // Reset to positive infinity for the next iteration
-        }
-
-        return verticesWithSmallestWeight.iterator();
-    }
-
-     */
 
 
 
