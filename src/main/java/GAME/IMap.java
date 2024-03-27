@@ -1,6 +1,6 @@
 package GAME;
 
-import Collections.Graphs.Network;
+import TodasColecoes.Grafos.Network;
 
 /**
  * This interface defines the contract that a map must follow

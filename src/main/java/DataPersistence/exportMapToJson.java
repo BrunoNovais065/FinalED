@@ -1,6 +1,6 @@
 package DataPersistence;
 
-import Collections.Graphs.Network;
+import TodasColecoes.Grafos.Network;
 import GAME.Location;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;

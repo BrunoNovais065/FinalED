@@ -148,12 +148,12 @@ public class Menu {
         for (int i = 0; i < numBots; i++) {
             System.out.println("Introduzir o nome do bot 1: ");
             String nameBot = scanner.next();
-            System.out.println("Introduzir o algoritmo do bot 1: ");
+            System.out.println("Introduzir o algoritmo de ida do bot 1: ");
             String algoritmo = scanner.next();
             do{
-                if (!algoritmo.equals("shortestPath") && !algoritmo.equals("highestWeight") && !algoritmo.equals("smallestWeight")) {
-                    System.out.println("O algoritmo tem de ser shortestPath ou highestWeight ou smallestWeight");
-                    System.out.println("Introduzir o algoritmo do bot 1: ");
+                if (!algoritmo.equals("shortestPath") && !algoritmo.equals("highestWeight") && !algoritmo.equals("smallestWeight") && !algoritmo.equals("mts")) {
+                    System.out.println("O algoritmo tem de ser shortestPath ou highestWeight ou smallestWeight ou mts");
+                    System.out.println("Introduzir o algoritmo de ida do bot 1: ");
                     algoritmo = scanner.next();
                 } else {
                     boolean algoritmoIgual = false;
@@ -167,7 +167,7 @@ public class Menu {
 
                     if (algoritmoIgual) {
                         System.out.println("O algoritmo tem de ser diferente dos outros bots");
-                        System.out.println("Introduzir o algoritmo do bot 1: ");
+                        System.out.println("Introduzir o algoritmo de ida do bot 1: ");
                         algoritmo = scanner.next();
                     } else {
                         correto = 1;
@@ -175,26 +175,18 @@ public class Menu {
                 }
             }while (correto == 0);
             correto = 0;
-            //aqui vai ser verificado se o algoritmo é valido a partir do nome, se calhar introduzir aqui uma enumeração
-            bots1[i] = new Bot(nameBot, algoritmo,game.getMap().getLocation(id1), game.getMap().getLocation(id2), this.game, name1);
-        }
-        Player player1 = new Player(name1,  game.getMap().getLocation(id1), bots1);
-        Bot[] bots2 = new Bot[numBots2];
-        for (int i = 0; i < numBots2; i++) {
-            System.out.println("Introduzir o nome do bot do jogador 2: ");
-            String nameBot = scanner.next();
-            System.out.println("Introduzir o algoritmo do bot do jogador 2: ");
-            String algoritmo = scanner.next();
+            System.out.println("Introduzir o algoritmo de volta do bot 1: ");
+            String algoritmoVolta = scanner.next();
             do{
-                if (!algoritmo.equals("shortestPath") && !algoritmo.equals("highestWeight") && !algoritmo.equals("smallestWeight")) {
+                if (!algoritmoVolta.equals("shortestPath") && !algoritmoVolta.equals("highestWeight") && !algoritmoVolta.equals("smallestWeight") && !algoritmoVolta.equals("mts")) {
                     System.out.println("O algoritmo tem de ser shortestPath ou highestWeight ou smallestWeight");
-                    System.out.println("Introduzir o algoritmo do bot 1: ");
-                    algoritmo = scanner.next();
+                    System.out.println("Introduzir o algoritmo de volta do bot 1: ");
+                    algoritmoVolta = scanner.next();
                 } else {
                     boolean algoritmoIgual = false;
 
-                    for (int j = 0; j < numBots2; j++) {
-                        if (bots2[j] != null && bots2[j].getAlgoritmo().equals(algoritmo)) {
+                    for (int j = 0; j < numBots; j++) {
+                        if (bots1[j] != null && bots1[j].getAlgoritmo().equals(algoritmoVolta)) {
                             algoritmoIgual = true;
                             break;
                         }
@@ -202,15 +194,78 @@ public class Menu {
 
                     if (algoritmoIgual) {
                         System.out.println("O algoritmo tem de ser diferente dos outros bots");
-                        System.out.println("Introduzir o algoritmo do bot 1: ");
+                        System.out.println("Introduzir o algoritmo de volta do bot 1: ");
+                        algoritmoVolta = scanner.next();
+                    } else {
+                        correto = 1;
+                    }
+                }
+            }while (correto == 0);
+            correto = 0;
+            //aqui vai ser verificado se o algoritmo é valido a partir do nome, se calhar introduzir aqui uma enumeração
+            bots1[i] = new Bot(nameBot, algoritmo,algoritmoVolta,game.getMap().getLocation(id1), game.getMap().getLocation(id2), this.game, name1);
+        }
+        Player player1 = new Player(name1,  game.getMap().getLocation(id1), bots1);
+        Bot[] bots2 = new Bot[numBots2];
+        for (int i = 0; i < numBots2; i++) {
+            System.out.println("Introduzir o nome do bot do jogador 2: ");
+            String nameBot = scanner.next();
+            System.out.println("Introduzir o algoritmo de ida do bot do jogador 2: ");
+            String algoritmo = scanner.next();
+            do{
+                if (!algoritmo.equals("shortestPath") && !algoritmo.equals("highestWeight") && !algoritmo.equals("smallestWeight") && !algoritmo.equals("mts")) {
+                    System.out.println("O algoritmo tem de ser shortestPath ou highestWeight ou smallestWeight ou mts");
+                    System.out.println("Introduzir o algoritmo de ida do bot 2: ");
+                    algoritmo = scanner.next();
+                } else {
+                    boolean algoritmoIgual = false;
+
+                    for (int j = 0; j < numBots2; j++) {
+                        if (bots2[j] != null && bots2[j].getAlgoritmo().equals(algoritmo) ) {
+                            algoritmoIgual = true;
+                            break;
+                        }
+                    }
+
+                    if (algoritmoIgual) {
+                        System.out.println("O algoritmo tem de ser diferente dos outros bots");
+                        System.out.println("Introduzir o algoritmo de ida do bot 2: ");
                         algoritmo = scanner.next();
                     } else {
                         correto = 1;
                     }
                 }
             }while (correto == 0);
+            correto = 0;
+            System.out.println("Introduzir o algoritmo de volta do bot do jogador 2: ");
+            String algoritmoVolta = scanner.next();
+            do{
+                if (!algoritmoVolta.equals("shortestPath") && !algoritmoVolta.equals("highestWeight") && !algoritmoVolta.equals("smallestWeight") && !algoritmoVolta.equals("mts")) {
+                    System.out.println("O algoritmo tem de ser shortestPath ou highestWeight ou smallestWeight");
+                    System.out.println("Introduzir o algoritmo de Volta do bot 2: ");
+                    algoritmoVolta = scanner.next();
+                } else {
+                    boolean algoritmoIgual = false;
+
+                    for (int j = 0; j < numBots2; j++) {
+                        if (bots2[j] != null && bots2[j].getAlgoritmo().equals(algoritmoVolta)) {
+                            algoritmoIgual = true;
+                            break;
+                        }
+                    }
+
+                    if (algoritmoIgual) {
+                        System.out.println("O algoritmo tem de ser diferente dos outros bots");
+                        System.out.println("Introduzir o algoritmo de Volta do bot 2: ");
+                        algoritmoVolta = scanner.next();
+                    } else {
+                        correto = 1;
+                    }
+                }
+            }while (correto == 0);
+            correto = 0;
             //aqui vai ser verificado se o algoritmo é valido a partir do nome, se calhar introduzir aqui uma enumeração
-            bots2[i] = new Bot(nameBot, algoritmo,game.getMap().getLocation(id2), game.getMap().getLocation(id1), this.game, name2);
+            bots2[i] = new Bot(nameBot, algoritmo,algoritmoVolta,game.getMap().getLocation(id2), game.getMap().getLocation(id1), this.game, name2);
         }
         Player player2 = new Player(name2,  game.getMap().getLocation(id2), bots2);
         this.game.addPlayer(player1);
@@ -334,12 +389,12 @@ public class Menu {
         for (int i = 0; i < numBots; i++) {
             System.out.println("Introduzir o nome do bot 1: ");
             String nameBot = scanner.next();
-            System.out.println("Introduzir o algoritmo do bot 1: ");
+            System.out.println("Introduzir o algoritmo de ida do bot 1: ");
             String algoritmo = scanner.next();
             do{
-                if (!algoritmo.equals("shortestPath") && !algoritmo.equals("highestWeight") && !algoritmo.equals("smallestWeight")) {
+                if (!algoritmo.equals("shortestPath") && !algoritmo.equals("highestWeight") && !algoritmo.equals("smallestWeight") && !algoritmo.equals("mts")) {
                     System.out.println("O algoritmo tem de ser shortestPath ou highestWeight ou smallestWeight");
-                    System.out.println("Introduzir o algoritmo do bot 1: ");
+                    System.out.println("Introduzir o algoritmo de ida do bot 1: ");
                     algoritmo = scanner.next();
                 } else {
                     boolean algoritmoIgual = false;
@@ -353,7 +408,7 @@ public class Menu {
 
                     if (algoritmoIgual) {
                         System.out.println("O algoritmo tem de ser diferente dos outros bots");
-                        System.out.println("Introduzir o algoritmo do bot 1: ");
+                        System.out.println("Introduzir o algoritmo de ida do bot 1: ");
                         algoritmo = scanner.next();
                     } else {
                         correto = 1;
@@ -361,20 +416,48 @@ public class Menu {
                 }
             }while (correto == 0);
             correto = 0;
+
+            System.out.println("Introduzir o algoritmo de Volta do bot 1: ");
+            String algoritmoVolta = scanner.next();
+            do{
+                if (!algoritmoVolta.equals("shortestPath") && !algoritmoVolta.equals("highestWeight") && !algoritmoVolta.equals("smallestWeight") && !algoritmoVolta.equals("mts")) {
+                    System.out.println("O algoritmo tem de ser shortestPath ou highestWeight ou smallestWeight");
+                    System.out.println("Introduzir o algoritmo de Volta do bot 1: ");
+                    algoritmoVolta = scanner.next();
+                } else {
+                    boolean algoritmoIgual = false;
+
+                    for (int j = 0; j < numBots; j++) {
+                        if (bots1[j] != null && bots1[j].getAlgoritmo().equals(algoritmoVolta)) {
+                            algoritmoIgual = true;
+                            break;
+                        }
+                    }
+
+                    if (algoritmoIgual) {
+                        System.out.println("O algoritmo tem de ser diferente dos outros bots");
+                        System.out.println("Introduzir o algoritmo de Volta do bot 1: ");
+                        algoritmoVolta = scanner.next();
+                    } else {
+                        correto = 1;
+                    }
+                }
+            }while (correto == 0);
+            correto = 0;
             //aqui vai ser verificado se o algoritmo é valido a partir do nome, se calhar introduzir aqui uma enumeração
-            bots1[i] = new Bot(nameBot, algoritmo,game.getMap().getLocation(id1), game.getMap().getLocation(id2), this.game, name1);
+            bots1[i] = new Bot(nameBot, algoritmo,algoritmoVolta,game.getMap().getLocation(id1), game.getMap().getLocation(id2), this.game, name1);
         }
         Player player1 = new Player(name1,  game.getMap().getLocation(id1), bots1);
         Bot[] bots2 = new Bot[numBots2];
         for (int i = 0; i < numBots2; i++) {
             System.out.println("Introduzir o nome do bot do jogador 2: ");
             String nameBot = scanner.next();
-            System.out.println("Introduzir o algoritmo do bot do jogador 2: ");
+            System.out.println("Introduzir o algoritmo do bot de Ida do jogador 2: ");
             String algoritmo = scanner.next();
             do{
-                if (!algoritmo.equals("shortestPath") && !algoritmo.equals("highestWeight") && !algoritmo.equals("smallestWeight")) {
+                if (!algoritmo.equals("shortestPath") && !algoritmo.equals("highestWeight") && !algoritmo.equals("smallestWeight") && !algoritmo.equals("mts")) {
                     System.out.println("O algoritmo tem de ser shortestPath ou highestWeight ou smallestWeight");
-                    System.out.println("Introduzir o algoritmo do bot 1: ");
+                    System.out.println("Introduzir o algoritmo de Ida do bot 2: ");
                     algoritmo = scanner.next();
                 } else {
                     boolean algoritmoIgual = false;
@@ -388,15 +471,43 @@ public class Menu {
 
                     if (algoritmoIgual) {
                         System.out.println("O algoritmo tem de ser diferente dos outros bots");
-                        System.out.println("Introduzir o algoritmo do bot 1: ");
+                        System.out.println("Introduzir o algoritmo de Ida do bot 2: ");
                         algoritmo = scanner.next();
                     } else {
                         correto = 1;
                     }
                 }
             }while (correto == 0);
+            correto = 0;
+            System.out.println("Introduzir o algoritmo de Volta do bot do jogador 2: ");
+            String algoritmoVolta = scanner.next();
+            do{
+                if (!algoritmoVolta.equals("shortestPath") && !algoritmoVolta.equals("highestWeight") && !algoritmoVolta.equals("smallestWeight") && !algoritmoVolta.equals("mts")) {
+                    System.out.println("O algoritmo tem de ser shortestPath ou highestWeight ou smallestWeight");
+                    System.out.println("Introduzir o algoritmo de Volta do bot 2: ");
+                    algoritmoVolta = scanner.next();
+                } else {
+                    boolean algoritmoIgual = false;
+
+                    for (int j = 0; j < numBots2; j++) {
+                        if (bots2[j] != null && bots2[j].getAlgoritmo().equals(algoritmoVolta)) {
+                            algoritmoIgual = true;
+                            break;
+                        }
+                    }
+
+                    if (algoritmoIgual) {
+                        System.out.println("O algoritmo tem de ser diferente dos outros bots");
+                        System.out.println("Introduzir o algoritmo de Volta do bot 2: ");
+                        algoritmoVolta = scanner.next();
+                    } else {
+                        correto = 1;
+                    }
+                }
+            }while (correto == 0);
+            correto = 0;
             //aqui vai ser verificado se o algoritmo é valido a partir do nome, se calhar introduzir aqui uma enumeração
-            bots2[i] = new Bot(nameBot, algoritmo,game.getMap().getLocation(id2), game.getMap().getLocation(id1), this.game, name2);
+            bots2[i] = new Bot(nameBot, algoritmo,algoritmoVolta,game.getMap().getLocation(id2), game.getMap().getLocation(id1), this.game, name2);
         }
         Player player2 = new Player(name2,  game.getMap().getLocation(id2), bots2);
         this.game.addPlayer(player1);
