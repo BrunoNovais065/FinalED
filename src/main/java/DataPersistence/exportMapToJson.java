@@ -1,6 +1,6 @@
 package DataPersistence;
 
-import Colecoes.Graphs.Network;
+import TodasColecoes.Grafos.Network;
 import GAME.Location;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -8,6 +8,9 @@ import org.json.simple.JSONObject;
 import java.io.FileWriter;
 import java.io.IOException;
 
+/**
+ * Class that exports a map to a JSON file
+ */
 public class exportMapToJson {
     public static void exportMapToJson(String path, Network<Location> map) {
         JSONObject mapObject = new JSONObject();

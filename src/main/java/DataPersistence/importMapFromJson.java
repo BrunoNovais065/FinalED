@@ -1,6 +1,6 @@
 package DataPersistence;
 
-import Colecoes.Graphs.Network;
+import TodasColecoes.Grafos.Network;
 import GAME.Location;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -10,16 +10,9 @@ import org.json.simple.parser.ParseException;
 import java.io.FileReader;
 import java.io.IOException;
 
-import Colecoes.Graphs.Network;
-import GAME.Location;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-
-import java.io.FileReader;
-import java.io.IOException;
-
+/**
+ * Class that imports a map from a JSON file
+ */
 public class importMapFromJson {
     public static Network<Location> importMapFromJson(String path) {
         JSONParser jsonParser = new JSONParser();
